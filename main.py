@@ -240,7 +240,7 @@ class Application(tk.Tk):
             command_tab = lunch_command.split(self.games.get_commande_delimiter())
             try:
                 res = subprocess.run(
-                    command_tab, shell=True, text=True,  # capture_output=True, check=True
+                    command_tab, shell=True, text=True, encoding='utf-8',  # capture_output=True, check=True
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
                 if res.returncode != 0:
