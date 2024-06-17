@@ -26,6 +26,7 @@ class DataFileStructure(TypedDict):
     delimiter: str
     quotechar: str
     newline: str
+    nb_columns: int
     commande_delimiter: str
 
 
@@ -83,11 +84,11 @@ class Games:
             headerPassed = False
             for row in reader:
                 if not headerPassed:
-                    if not (len(row) == 2 and row[0] == 'name' and row[1] == 'lunch_command'):
+                    if not (len(row) == self.csv_file['nb_columns'] and row[0] == 'name' and row[1] == 'lunch_command'):
                         break
                     headerPassed = True
                     continue
-                if len(row) == 2:
+                if len(row) == self.csv_file['nb_columns']:
                     self.add_game(row[0], row[1])
 
     def get_game(self, name: str) -> Optional[Game]:
@@ -236,13 +237,13 @@ class Application(tk.Tk):
         selected_game = self.list_list.get(self.list_list.curselection())
         lunch_command = self.games.get_game_lunch_command(selected_game)
         if lunch_command is not None:
-            print(lunch_command)
             command_tab = lunch_command.split(self.games.get_commande_delimiter())
-            print(command_tab)
             try:
-                res = subprocess.run(command_tab, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                     text=True)
-                if res != 0:
+                res = subprocess.run(
+                    command_tab, shell=True, text=True,  # capture_output=True, check=True
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                )
+                if res.returncode != 0:
                     raise Exception(f'Error code {res.returncode}\n{res.stderr}')
             except Exception as e:
                 messagebox.showerror('Error', f'Error while launching {selected_game}:\n{e}')
@@ -265,7 +266,7 @@ if __name__ == '__main__':
             version='v1.0.0',
             csv_file=DataFileStructure(
                 name="games.csv", delimiter=",", quotechar='"',
-                newline='\n', commande_delimiter='#'
+                newline='\n', nb_columns=2, commande_delimiter='#'
             )
         )
         exit(0)
