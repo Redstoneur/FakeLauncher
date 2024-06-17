@@ -26,57 +26,55 @@
 
 ## Description
 
-FakeLauncher est une application Python qui permet de lancer des jeux à partir d'une interface utilisateur. Les jeux et
-leurs commandes de lancement sont stockés dans un fichier CSV.
+FakeLauncher is a Python application that allows you to launch games from a user interface. The games and their launch commands are stored in a CSV file.
 
 ## Installation
 
-1. Assurez-vous d'avoir Python installé sur votre machine.
-2. Clonez ce dépôt sur votre machine locale.
+1. Make sure you have Python installed on your computer.
+2. Clone this repository to your local computer.
 
    ```bash
    git clone https://github.com/Redstoneur/FakeLauncher.git FakeLauncher
    cd FakeLauncher
    ```
 
-3. Installez les dépendances du projet en exécutant la commande suivante dans le répertoire du projet :
+3. Install the project dependencies by running the following command in the project directory:
 
    ```bash
    python -m pip install -r requirements.txt
    ```
 
-4. Exécutez le fichier `main.py` pour lancer l'application.
+4. Run the `main.py` file to launch the application.
 
    ```bash
    python main.py
    ```
 
-## Utilisation
+## Usage
 
-1. Renseigner les jeux et leurs commandes de lancement dans le fichier `games.csv` en respectant le format suivant :
+1. Fill in the games and their launch commands in the `games.csv` file using the following format:
 
    ```csv
    "name","lunch_command"
-   "nom_du_jeu","commande_de_lancement"
+   "game_name","game_lunch_command"
    ```
 
-    - `nom_du_jeu` : Remplacez cela par le nom du jeu que vous souhaitez ajouter.
-    - `commande_de_lancement` : Remplacez cela par la commande nécessaire pour lancer le jeu. Si la commande contient
-      plusieurs parties (par exemple, un chemin d'accès et des arguments), séparez-les par un `#`.
+    - `game_name`: Replace this with the name of the game you want to add.
+    - `game_lunch_command`: Replace this with the command needed to launch the game. If the command has multiple parts (e.g., a path and arguments), separate them with a `#`.
 
-   Par exemple, si vous voulez ajouter un jeu qui se lance avec la commande `dir C:`, vous ajouterez la ligne suivante :
+   For example, if you want to add a game that launches with the command `dir C:`, you would add the following line:
 
    ```csv
    "dir","dir#C:"
    ```
 
-   Notez que le fichier `games.csv` doit être dans le même répertoire que le fichier `main.py`
+   Note that the `games.csv` file must be in the same directory as the `main.py` file.
 
-2. Lancez l'application.
-3. Dans la zone de recherche, tapez le nom du jeu que vous souhaitez lancer.
-4. Sélectionnez le jeu dans la liste des résultats.
-5. Cliquez sur le bouton "Launch" pour lancer le jeu.
+2. Launch the application.
+3. In the search area, type the name of the game you want to launch.
+4. Select the game from the list of results.
+5. Click the "Launch" button to launch the game.
 
-## Licence
+## License
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
