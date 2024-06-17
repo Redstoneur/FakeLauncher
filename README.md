@@ -26,7 +26,8 @@
 
 ## Description
 
-FakeLauncher is a Python application that allows you to launch games from a user interface. The games and their launch commands are stored in a CSV file.
+FakeLauncher is a Python application that allows you to launch games from a user interface. The games and their launch
+commands are stored in a CSV file.
 
 ## Installation
 
