@@ -15,66 +15,66 @@ from typing import List, Optional, TypedDict
 
 class DataFileStructure(TypedDict):
     """
-    Structure de données pour les fichiers CSV
+    Data structure for CSV files
 
-    name: str -> nom du fichier
-    delimiter: str -> délimiteur
-    quotechar: str -> caractère de citation
-    newline: str -> caractère de fin de ligne
+    name: str -> file name
+    delimiter: str -> delimiter
+    quotechar: str -> quote character
+    newline: str -> newline character
     """
     name: str
     delimiter: str
     quotechar: str
     newline: str
     nb_columns: int
-    commande_delimiter: str
+    command_delimiter: str
 
 
 class Game(TypedDict):
     """
-    Structure de données pour les jeux
+    Data structure for games
 
-    name: str -> nom du jeu
-    lunch_command: str -> commande de lancement
+    name: str -> game name
+    launch_command: str -> launch command
     """
     name: str
-    lunch_command: str
+    launch_command: str
 
 
 class Games:
     """
-    Classe pour gérer les jeux
+    Class to manage games
 
-    csv_file: DataFileStructure -> structure de données pour les fichiers CSV
-    games: List[Game] -> liste des jeux
+    csv_file: DataFileStructure -> data structure for CSV files
+    games: List[Game] -> list of games
     """
     csv_file: DataFileStructure
     games: List[Game]
 
     def __init__(self, csv_file: DataFileStructure):
         """
-        Constructeur de la classe
+        Class constructor
 
-        :param csv_file: DataFileStructure -> structure de données pour les fichiers CSV
+        :param csv_file: DataFileStructure -> data structure for CSV files
         """
         self.csv_file = csv_file
         self.games: List[Game] = []
 
         self.load_games()
 
-    def add_game(self, name: str, lunch_command: str) -> None:
+    def add_game(self, name: str, launch_command: str) -> None:
         """
-        Ajoute un jeu à la liste
+        Adds a game to the list
 
-        :param name: nom du jeu
-        :param lunch_command: commande de lancement
+        :param name: game name
+        :param launch_command: launch command
         :return: None
         """
-        self.games.append({'name': name, 'lunch_command': lunch_command})
+        self.games.append({'name': name, 'launch_command': launch_command})
 
     def load_games(self) -> None:
         """
-        Charge les jeux depuis le fichier CSV
+        Loads games from the CSV file
 
         :return: None
         """
@@ -84,7 +84,8 @@ class Games:
             headerPassed = False
             for row in reader:
                 if not headerPassed:
-                    if not (len(row) == self.csv_file['nb_columns'] and row[0] == 'name' and row[1] == 'lunch_command'):
+                    if not (len(row) == self.csv_file['nb_columns'] and row[0] == 'name' and row[
+                        1] == 'lunch_command'):
                         break
                     headerPassed = True
                     continue
@@ -93,10 +94,10 @@ class Games:
 
     def get_game(self, name: str) -> Optional[Game]:
         """
-        Récupère un jeu par son nom
+        Retrieves a game by its name
 
-        :param name: nom du jeu
-        :return: Optional[Game] -> jeu
+        :param name: game name
+        :return: Optional[Game] -> game
         """
         for g in self.games:
             if g['name'] == name:
@@ -105,45 +106,45 @@ class Games:
 
     def get_game_names(self) -> List[str]:
         """
-        Récupère la liste des noms des jeux
-        :return: List[str] -> liste des noms des jeux
+        Retrieves the list of game names
+        :return: List[str] -> list of game names
         """
         return [g['name'] for g in self.games]
 
-    def get_game_lunch_command(self, name: str) -> Optional[str]:
+    def get_game_launch_command(self, name: str) -> Optional[str]:
         """
-        Récupère la commande de lancement d'un jeu par son nom
+        Retrieves the launch command of a game by its name
 
-        :param name: nom du jeu
-        :return: Optional[str] -> commande de lancement
+        :param name: game name
+        :return: Optional[str] -> launch command
         """
         g = self.get_game(name)
         if g is not None:
-            return g['lunch_command']
+            return g['launch_command']
         return None
 
-    def get_commande_delimiter(self) -> str:
+    def get_command_delimiter(self) -> str:
         """
-        Récupère le délimiteur de commande
+        Retrieves the command delimiter
 
-        :return: str -> délimiteur de commande
+        :return: str -> command delimiter
         """
-        return self.csv_file['commande_delimiter']
+        return self.csv_file['command_delimiter']
 
 
 class Application(tk.Tk):
     """
-    Classe pour l'application
+    Class for the application
 
-    games: Games -> jeux
-    search_zone: tk.Frame -> zone de recherche
-    search_entry: tk.Entry -> champ de recherche
-    search_button: tk.Button -> bouton de recherche
-    list_zone: tk.Frame -> zone de résultats
-    list_list: tk.Listbox -> liste des jeux
-    list_scrollbar: tk.Scrollbar -> scrollbar de la liste
-    launch_zone: tk.Frame -> zone de lancement
-    launch_button: tk.Button -> bouton de lancement
+    games: Games -> games
+    search_zone: tk.Frame -> search area
+    search_entry: tk.Entry -> search field
+    search_button: tk.Button -> search button
+    list_zone: tk.Frame -> results area
+    list_list: tk.Listbox -> list of games
+    list_scrollbar: tk.Scrollbar -> scrollbar for the list
+    launch_zone: tk.Frame -> launch area
+    launch_button: tk.Button -> launch button
     """
     games: Games
 
@@ -159,11 +160,11 @@ class Application(tk.Tk):
 
     def __init__(self, name: str, version: str, csv_file: DataFileStructure):
         """
-        Constructeur de la classe
+        Class constructor
 
-        :param name: str -> nom de l'application
-        :param version: str -> version de l'application
-        :param csv_file: DataFileStructure -> structure de données pour les fichiers CSV
+        :param name: str -> application name
+        :param version: str -> application version
+        :param csv_file: DataFileStructure -> data structure for CSV files
         """
         super().__init__()
 
@@ -172,7 +173,7 @@ class Application(tk.Tk):
         self.title(f'{name} {version}')
         self.resizable(False, False)
 
-        # zone de recherche
+        # search area
         self.search_zone = tk.Frame(self)
 
         self.search_entry = tk.Entry(self.search_zone)
@@ -182,7 +183,7 @@ class Application(tk.Tk):
 
         self.search_zone.pack()
 
-        # zone de résultats liste des jeux bouton avec une scrollbar
+        # results area game list button with a scrollbar
         self.list_zone = tk.Frame(self)
 
         self.list_list = tk.Listbox(self.list_zone)
@@ -197,7 +198,7 @@ class Application(tk.Tk):
 
         self.list_zone.pack()
 
-        # zone de lancement
+        # launch area
         self.launch_zone = tk.Frame(self)
 
         self.launch_button = tk.Button(self.launch_zone, text='Launch', command=self.launch)
@@ -205,18 +206,18 @@ class Application(tk.Tk):
 
         self.launch_zone.pack()
 
-        # lancement de la recherche
+        # start the search
         self.search()
-        # lancement de la boucle principale
+        # start the main loop
         self.mainloop()
 
     def search(self) -> None:
         """
-        Recherche les jeux
+        Searches for games
 
         :return: None
         """
-        # si la recherche est vide, on affiche tous les jeux
+        # if the search is empty, display all games
         search = self.search_entry.get()
         if search == '':
             games = self.games.get_game_names()
@@ -230,17 +231,21 @@ class Application(tk.Tk):
 
     def launch(self) -> None:
         """
-        Lance un jeu
+        Launches a game
 
         :return: None
         """
-        selected_game = self.list_list.get(self.list_list.curselection())
-        lunch_command = self.games.get_game_lunch_command(selected_game)
-        if lunch_command is not None:
-            command_tab = lunch_command.split(self.games.get_commande_delimiter())
+        try:
+            selected_game = self.list_list.get(self.list_list.curselection())
+        except tk.TclError:
+            messagebox.showerror('Error', 'No game selected')
+            return
+        launch_command = self.games.get_game_launch_command(selected_game)
+        if launch_command is not None:
+            command_tab = launch_command.split(self.games.get_command_delimiter())
             try:
                 res = subprocess.run(
-                    command_tab, shell=True, text=True, encoding='utf-8',  # capture_output=True, check=True
+                    command_tab, shell=True, text=True,  # capture_output=True, check=True
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE
                 )
                 if res.returncode != 0:
@@ -251,7 +256,7 @@ class Application(tk.Tk):
                 messagebox.showinfo('Success', f'{selected_game} launched')
 
         else:
-            messagebox.showerror('Error', f'No lunch command found for {selected_game}')
+            messagebox.showerror('Error', f'No launch command found for {selected_game}')
 
 
 ########################################################################################################################
@@ -266,10 +271,14 @@ if __name__ == '__main__':
             version='v1.0.0',
             csv_file=DataFileStructure(
                 name="games.csv", delimiter=",", quotechar='"',
-                newline='\n', nb_columns=2, commande_delimiter='#'
+                newline='\n', nb_columns=2, command_delimiter='#'
             )
         )
         exit(0)
     except Exception as e:
         messagebox.showerror('Error', f'Error executing the application:\n{e}')
         exit(1)
+
+########################################################################################################################
+#### END OF FILE #######################################################################################################
+########################################################################################################################
